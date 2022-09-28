@@ -1,26 +1,3 @@
-// const getCoords = async () => {
-//   let response = await fetch(url);
-//   let data = await response.json();
-//   return data;
-// };
-
-// getCoords()
-//   .then((res) => {
-//     lat = res[0].lat;
-//     lon = res[0].lon;
-//     console.log(lat, lon);
-//   })
-//   .then();
-
-// const getWheather = async () => {
-//   let secondURL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
-//   let response = await fetch(secondURL);
-//   let data = await response.json();
-//   return data;
-// };
-
-// getWheather().then((res) => console.log(res));
-
 const btn = document.getElementById("btn");
 
 btn.addEventListener("click", () => {
@@ -68,19 +45,23 @@ const getWeather = (data) => {
 
   let kelvin = "273.15";
   let newTemp = Math.floor(temp - kelvin);
+  let iconCode = weather[0].icon;
+  let iconURL = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
   const container = document.getElementById("container");
   container.innerHTML += `
       <div class="col-md-6 col-lg-4 col-xl-3">
-        <div class="card" style="width: 18rem">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">${name}<span>${country}</span> </li>
-            <li class="list-group-item">${newTemp}</li>
-            <li class="list-group-item"><i>${weather[0].icon}</i></li>
-            <li class="list-group-item">${weather[0].description}</li>
-          </ul>
-        </div>
+    <div class="card" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title">${name}<span>${country}</span></h5>
+        <p class="card-text">${newTemp}<span>℃</span></p>
+        <p class="card-text"><img src="${iconURL}" /></p>
+        <p class="card-text">${weather[0].description.toUpperCase()}</p>
+        
+        
       </div>
+    </div>
+    </div>
     
 
   
