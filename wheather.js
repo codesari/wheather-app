@@ -2,16 +2,17 @@ const btn = document.getElementById("btn");
 let arrCity = [];
 
 btn.addEventListener("click", () => {
+  errorDiv.innerText = "";
   const input = document.getElementById("input");
   if (input.value.trim() == "") {
-    alert("enter a string please");
+    alert("enter a city please");
   } else {
     const accessAPI = async () => {
       try {
         let city = input.value;
 
         if (arrCity.includes(city)) {
-          alert("Enter a different city,please..");
+          printErrorToDOM("Enter a different city,please..");
           throw new Error();
         }
 
@@ -32,14 +33,13 @@ btn.addEventListener("click", () => {
       }
     };
     accessAPI();
+    input.value = "";
   }
 });
-
-const printErrorToDOM = () => {
-  // let errorDiv = document.getElementById("error");
-  // errorDiv.innerHTML += `<img src="./img/404notfound.png" alt="">
-  // `;
-  alert("This city is not found..");
+let errorDiv = document.getElementById("error");
+const printErrorToDOM = (err) => {
+  const errContent = err;
+  errorDiv.innerHTML += `<p>${errContent}</p>`;
 };
 
 const getWeather = (data) => {
@@ -65,13 +65,10 @@ const getWeather = (data) => {
         <p class="card-text"><img src="${iconURL}" /></p>
         <p class="card-text" id="weather-condition">${weather[0].description.toUpperCase()}</p>
         
-        
       </div>
     </div>
     </div>
-    
 
-  
   `;
   // console.log(newTemp);
   // console.log(name);
