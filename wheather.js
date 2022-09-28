@@ -1,4 +1,5 @@
 const btn = document.getElementById("btn");
+let arrCity = [];
 
 btn.addEventListener("click", () => {
   const input = document.getElementById("input");
@@ -6,13 +7,16 @@ btn.addEventListener("click", () => {
     alert("enter a string please");
   } else {
     const accessAPI = async () => {
-      let city = input.value;
-      let apiKey = "c596300e44a2dbdfa3b87cda29ff8d7b";
-
-      let url = `
-
-https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
       try {
+        let city = input.value;
+
+        if (arrCity.includes(city)) {
+          alert("Enter a different city,please..");
+          throw new Error();
+        }
+
+        let apiKey = "c596300e44a2dbdfa3b87cda29ff8d7b";
+        let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
         const res = await fetch(url);
         if (!res.ok) {
           printErrorToDOM();
@@ -20,6 +24,8 @@ https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
         }
         const data = await res.json();
         console.log(data);
+        arrCity.push(city);
+        console.log(arrCity);
         getWeather(data);
       } catch (err) {
         console.log(err);
@@ -30,9 +36,10 @@ https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 });
 
 const printErrorToDOM = () => {
-  let errorDiv = document.getElementById("error");
-  errorDiv.innerHTML += `<img src="./img/404notfound.png" alt="">
-  `;
+  // let errorDiv = document.getElementById("error");
+  // errorDiv.innerHTML += `<img src="./img/404notfound.png" alt="">
+  // `;
+  alert("This city is not found..");
 };
 
 const getWeather = (data) => {
@@ -54,9 +61,9 @@ const getWeather = (data) => {
     <div class="card" style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title">${name}<span>${country}</span></h5>
-        <p class="card-text">${newTemp}<span>℃</span></p>
+        <p class="card-text" id="temp">${newTemp}<span>℃</span></p>
         <p class="card-text"><img src="${iconURL}" /></p>
-        <p class="card-text">${weather[0].description.toUpperCase()}</p>
+        <p class="card-text" id="weather-condition">${weather[0].description.toUpperCase()}</p>
         
         
       </div>
