@@ -21,34 +21,42 @@
 
 // getWheather().then((res) => console.log(res));
 
-let apiKey = "c596300e44a2dbdfa3b87cda29ff8d7b";
-let city = "Istanbul";
-let url = `
+const btn = document.getElementById("btn");
+
+btn.addEventListener("click", () => {
+  const input = document.getElementById("input");
+  if (input.value.trim() == "") {
+    alert("enter a string please");
+  } else {
+    const accessAPI = async () => {
+      let city = input.value;
+      let apiKey = "c596300e44a2dbdfa3b87cda29ff8d7b";
+
+      let url = `
 
 https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
-
-const getCity = async () => {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) {
-      printErrorToDOM();
-      throw new Error("Something went wrong");
-    }
-    const data = await res.json();
-    console.log(data);
-    getWeather(data);
-  } catch (err) {
-    console.log(err);
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          printErrorToDOM();
+          throw new Error("Something went wrong");
+        }
+        const data = await res.json();
+        console.log(data);
+        getWeather(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    accessAPI();
   }
-};
+});
 
 const printErrorToDOM = () => {
   let errorDiv = document.getElementById("error");
   errorDiv.innerHTML += `<img src="./img/404notfound.png" alt="">
   `;
 };
-
-getCity();
 
 const getWeather = (data) => {
   const {
@@ -57,10 +65,30 @@ const getWeather = (data) => {
     main: { temp },
     weather,
   } = data;
-  // console.log(data.name); //! City name
-  console.log(name);
-  console.log(country);
-  console.log(temp);
-  console.log(weather[0].icon);
-  console.log(weather[0].description);
+
+  let kelvin = "273.15";
+  let newTemp = Math.floor(temp - kelvin);
+
+  const container = document.getElementById("container");
+  container.innerHTML += `
+      <div class="col-md-6 col-lg-4 col-xl-3">
+        <div class="card" style="width: 18rem">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">${name}<span>${country}</span> </li>
+            <li class="list-group-item">${newTemp}</li>
+            <li class="list-group-item"><i>${weather[0].icon}</i></li>
+            <li class="list-group-item">${weather[0].description}</li>
+          </ul>
+        </div>
+      </div>
+    
+
+  
+  `;
+  // console.log(newTemp);
+  // console.log(name);
+  // console.log(country);
+  // console.log(temp);
+  // console.log(weather[0].icon);
+  // console.log(weather[0].description);
 };
