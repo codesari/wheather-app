@@ -59,6 +59,8 @@ body {
 #error {
     display: flex;
     flex-direction: column;
+    height: 10px
+        /** bir miktar height vererek ekrandaki span ın ortaya çıktığında tüm divi kaydırmasını önlüyoruz */
 }
 
 li {
