@@ -1,6 +1,9 @@
-const form = document.querySelector("body form");
+const form = document.getElementById("form");
 
-form.addEventListener("submit", () => {
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+  // ! prevent Default yapilmazsa ,card yapisi gelmiyor !!!
+  // ! cünkü submit dedigimde default olarak post işlemi yoksa hiçbirşey yapmaz,bu yüzden ben kendi fonksiyonumu cagiramam.form un bu özelligini durdurup kendi fonksiyonumuzu cagiriyoruz..
   const input = document.getElementById("input");
   if (input.value.trim() == "") {
     alert("enter a city please");
