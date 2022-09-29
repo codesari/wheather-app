@@ -55,3 +55,14 @@ body {
     letter-spacing: 4px;
     /** harfler arası boşluk */
 }
+
+#error {
+    display: flex;
+    flex-direction: column;
+}
+
+li {
+    display: flex;
+
+    list-style: none;
+}

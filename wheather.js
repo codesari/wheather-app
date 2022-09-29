@@ -1,4 +1,5 @@
 const form = document.getElementById("form");
+let arrCity = [];
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -11,7 +12,6 @@ form.addEventListener("submit", (event) => {
     try {
       const accessAPI = async () => {
         let city = input.value;
-        let arrCity = [];
 
         if (arrCity.includes(city)) {
           printErrorToDOM("Enter a different city,please..");
@@ -37,12 +37,16 @@ form.addEventListener("submit", (event) => {
       console.log(err);
     }
   }
+  form.reset();
 });
 
 const printErrorToDOM = (err) => {
   let errorSpan = document.getElementById("error");
   const errorContent = err;
   errorSpan.innerHTML = `${errorContent}`;
+  setTimeout(() => {
+    errorSpan.innerHTML = "";
+  }, 3000);
 };
 
 const getWeather = (data) => {
@@ -58,9 +62,15 @@ const getWeather = (data) => {
   let iconCode = weather[0].icon;
   let iconURL = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
-  const container = document.getElementById("container");
-  container.innerHTML += `
-      <div class="col-md-6 col-lg-4 col-xl-3">
+  // const container = document.getElementById("container");
+  const ul = document.querySelector(".container ul");
+  const li = document.createElement("li");
+  // ! ul-li ve Bootstrap'in birlikte kullanımı
+  ul.className = "row m-4 g-3";
+  li.className = "col-md-6 col-lg-4 col-xl-3";
+  li.innerHTML = `
+  
+      
     <div class="card" style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title">${name}<span>${country}</span></h5>
@@ -71,8 +81,10 @@ const getWeather = (data) => {
       </div>
     </div>
     </div>
+  
 
   `;
+  ul.prepend(li);
   // console.log(newTemp);
   // console.log(name);
   // console.log(country);
