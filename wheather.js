@@ -1,15 +1,14 @@
-const btn = document.getElementById("btn");
-let arrCity = [];
+const form = document.querySelector("body form");
 
-btn.addEventListener("click", () => {
-  errorDiv.innerText = "";
+form.addEventListener("submit", () => {
   const input = document.getElementById("input");
   if (input.value.trim() == "") {
     alert("enter a city please");
   } else {
-    const accessAPI = async () => {
-      try {
+    try {
+      const accessAPI = async () => {
         let city = input.value;
+        let arrCity = [];
 
         if (arrCity.includes(city)) {
           printErrorToDOM("Enter a different city,please..");
@@ -18,28 +17,29 @@ btn.addEventListener("click", () => {
 
         let apiKey = "c596300e44a2dbdfa3b87cda29ff8d7b";
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+
         const res = await fetch(url);
         if (!res.ok) {
-          printErrorToDOM();
-          throw new Error("Something went wrong");
+          printErrorToDOM("City is not founded");
+          throw new Error("Probably invalid city..");
         }
         const data = await res.json();
         console.log(data);
         arrCity.push(city);
         console.log(arrCity);
         getWeather(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    accessAPI();
-    input.value = "";
+      };
+      accessAPI();
+    } catch (err) {
+      console.log(err);
+    }
   }
 });
-let errorDiv = document.getElementById("error");
+
 const printErrorToDOM = (err) => {
-  const errContent = err;
-  errorDiv.innerHTML += `<p>${errContent}</p>`;
+  let errorSpan = document.getElementById("error");
+  const errorContent = err;
+  errorSpan.innerHTML = `${errorContent}`;
 };
 
 const getWeather = (data) => {
