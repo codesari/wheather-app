@@ -1,8 +1,8 @@
 body {
-    /* background-image: url(./img/wheather-bg.jpg); */
-    /* background-repeat: no-repeat; */
-    /* background-size: cover; */
-    background-image: linear-gradient(to right, #ff8177 0%, #ff867a 0%, #ff8c7f 21%, #f99185 52%, #cf556c 78%, #b12a5b 100%);
+    background-image: url(./img/wheather-bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+
 }
 
 #input {
@@ -11,16 +11,19 @@ body {
     outline: none;
     color: inherit;
     border-bottom: 1px solid;
+    border-color: #034C8C;
     width: 50%;
+
 }
 
 .card {
     border-radius: 20px;
-    background-color: white;
+    background-color: transparent;
+    border: 1px solid #034C8C;
 }
 
 .card-title {
-    color: gray;
+    color: #262473;
     font-size: x-large;
 
 }
@@ -51,7 +54,7 @@ body {
 
 #weather-condition {
     font-weight: 600;
-    color: gray;
+    color: #F2A057;
     letter-spacing: 4px;
     /** harfler arası boşluk */
 }
@@ -67,4 +70,15 @@ li {
     display: flex;
 
     list-style: none;
+}
+
+#remove {
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+}
+
+#remove:hover {
+    transform: scale(0.97);
+
 }

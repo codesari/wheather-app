@@ -27,9 +27,7 @@ form.addEventListener("submit", (event) => {
           throw new Error("Probably invalid city..");
         }
         const data = await res.json();
-        console.log(data);
-        arrCity.push(city);
-        console.log(arrCity);
+
         getWeather(data);
       };
       accessAPI();
@@ -38,6 +36,56 @@ form.addEventListener("submit", (event) => {
     }
   }
   form.reset();
+
+  const getWeather = (data) => {
+    const {
+      name,
+      sys: { country },
+      main: { temp },
+      weather,
+    } = data;
+    arrCity.push(name);
+    let kelvin = "273.15";
+    let newTemp = Math.floor(temp - kelvin);
+    let iconCode = weather[0].icon;
+    let iconURL = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+    // const container = document.getElementById("container");
+    const ul = document.querySelector(".container ul");
+    const li = document.createElement("li");
+    // ! ul-li ve Bootstrap'in birlikte kullanımı
+    ul.className = "row m-4 g-3";
+    li.className = "col-md-6 col-lg-4 col-xl-3";
+    li.id = name;
+    li.innerHTML = `
+  
+      
+    <div class="card" style="width: 18rem">
+      <div class="card-body">
+      <i id="remove" class="text-danger fa-solid fa-xmark"></i>
+        <h5 class="card-title">${name}<span>${country}</span></h5>
+        <p class="card-text" id="temp">${newTemp}<span>℃</span></p>
+        <p class="card-text"><img src="${iconURL}" /></p>
+        <p class="card-text" id="weather-condition">${weather[0].description.toUpperCase()}</p>
+        
+        
+      </div>
+    </div>
+    </div>
+  
+
+  `;
+    ul.prepend(li);
+    const removeIcon = document.getElementById("remove");
+    removeIcon.addEventListener("click", () => {
+      if (li.id == name) {
+        li.remove();
+      }
+    });
+    arrCity.filter((item) => item != name);
+
+    console.log(arrCity);
+  };
 });
 
 const printErrorToDOM = (err) => {
@@ -47,48 +95,4 @@ const printErrorToDOM = (err) => {
   setTimeout(() => {
     errorSpan.innerHTML = "";
   }, 3000);
-};
-
-const getWeather = (data) => {
-  const {
-    name,
-    sys: { country },
-    main: { temp },
-    weather,
-  } = data;
-
-  let kelvin = "273.15";
-  let newTemp = Math.floor(temp - kelvin);
-  let iconCode = weather[0].icon;
-  let iconURL = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
-
-  // const container = document.getElementById("container");
-  const ul = document.querySelector(".container ul");
-  const li = document.createElement("li");
-  // ! ul-li ve Bootstrap'in birlikte kullanımı
-  ul.className = "row m-4 g-3";
-  li.className = "col-md-6 col-lg-4 col-xl-3";
-  li.innerHTML = `
-  
-      
-    <div class="card" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">${name}<span>${country}</span></h5>
-        <p class="card-text" id="temp">${newTemp}<span>℃</span></p>
-        <p class="card-text"><img src="${iconURL}" /></p>
-        <p class="card-text" id="weather-condition">${weather[0].description.toUpperCase()}</p>
-        
-      </div>
-    </div>
-    </div>
-  
-
-  `;
-  ul.prepend(li);
-  // console.log(newTemp);
-  // console.log(name);
-  // console.log(country);
-  // console.log(temp);
-  // console.log(weather[0].icon);
-  // console.log(weather[0].description);
 };
