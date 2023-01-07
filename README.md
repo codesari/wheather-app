@@ -1,3 +1,3 @@
 ## Demo
 
-![Wheather App](wheather-app.gif)
+![Wheather App](./img/wheather-app.gif)
