@@ -18,7 +18,8 @@ form.addEventListener("submit", (event) => {
           throw new Error();
         }
 
-        let apiKey = "c596300e44a2dbdfa3b87cda29ff8d7b";
+        
+        const apiKey=process.env.API_KEY
         let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
         const res = await fetch(url);
